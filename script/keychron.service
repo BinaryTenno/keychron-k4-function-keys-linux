@@ -1,9 +1,12 @@
 [Unit]
-Description=The command to make the Keychron K2 work
+Description=The command to make the Keychron K2-k4 work with Function keys
 
 [Service]
 Type=oneshot
-ExecStart=/bin/bash -c "echo 0 > /sys/module/hid_apple/parameters/fnmode"
+# Disable Fn keys by default
+ExecStartPre=/bin/bash -c "echo 0 > /sys/module/hid_apple/parameters/fnmode"
+# Swap OPTION and COMMAND key, useful when running the kbd in MacOS mode
+ExecStart=/bin/bash -c "echo 1 > /sys/module/hid_apple/parameters/swap_opt_cmd"
 
 [Install]
 WantedBy=multi-user.target
